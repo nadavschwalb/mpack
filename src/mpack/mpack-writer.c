@@ -220,6 +220,7 @@ static void mpack_growable_writer_flush(mpack_writer_t* writer, const char* data
     // grow the buffer
     char* new_buffer = (char*)mpack_realloc(writer->buffer, used, new_size);
     if (new_buffer == NULL) {
+        printf("mpack failed to grow buffer from %i to %i\n", (int)size, (int)new_size);
         mpack_writer_flag_error(writer, mpack_error_memory);
         return;
     }
@@ -1496,6 +1497,7 @@ static void mpack_builder_add_page(mpack_writer_t* writer) {
     mpack_log("adding a page.\n");
     mpack_builder_page_t* page = (mpack_builder_page_t*)MPACK_MALLOC(MPACK_BUILDER_PAGE_SIZE);
     if (page == NULL) {
+        printf("failed to allocate page\n");
         mpack_writer_flag_error(writer, mpack_error_memory);
         return;
     }
